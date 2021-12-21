@@ -9,8 +9,6 @@ const Home = () => {
     { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 },
   ]);
 
-  const [name, setName] = useState<string>('Mario');
-
   const handleDelete = (id: number): void => {
     const newBlogs = blogs.filter(blog => blog.id !== id);
     setBlogs(newBlogs);
@@ -19,7 +17,7 @@ const Home = () => {
   // Empty array dependency, use effect runs only once
   useEffect(() => {
     console.log('use effect ran');
-  }, [name]);
+  }, []);
 
   return (
     <div className="home">
@@ -27,8 +25,6 @@ const Home = () => {
         blogs={blogs}
         title="All Blogs!"
         handleDelete={handleDelete} />
-      <button onClick={() => setName('Luigui')}>Change name</button>
-      <p>{ name }</p>
     </div>
   )
 };
