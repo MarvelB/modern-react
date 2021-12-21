@@ -1,20 +1,30 @@
-import { SyntheticEvent } from "react";
+import { useState, useEffect } from "react";
+import { Blog } from '../../types/blog.type';
+import BlogList from '../BlogList/BlogList';
 
 const Home = () => {
+  const [blogs, setBlogs] = useState<Blog[]>([
+    { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
+    { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
+    { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 },
+  ]);
 
-  const handleClick = (event: SyntheticEvent) => {
-    console.log('perra', event)
-  }
+  const handleDelete = (id: number): void => {
+    const newBlogs = blogs.filter(blog => blog.id !== id);
+    setBlogs(newBlogs);
+  };
 
-  const handleClickAgain = (name: string, event: SyntheticEvent) => {
-    console.log(`perra ${name}`, event)
-  }
+  // Empty array dependency, use effect runs only once
+  useEffect(() => {
+    console.log('use effect ran');
+  }, []);
 
   return (
     <div className="home">
-      <h2>Home Page</h2>
-      <button onClick={handleClick}>Click me</button>
-      <button onClick={(e) => handleClickAgain('maldita', e)}>Click me again</button>
+      <BlogList
+        blogs={blogs}
+        title="All Blogs!"
+        handleDelete={handleDelete} />
     </div>
   )
 };
