@@ -1,9 +1,3 @@
-// import React from 'react';
-
-// interface NavBarPropType {
-//   name: string;
-// }
-
 const Navbar = () => (
   <div className="navbar">
     <h1>Blogs</h1> 
