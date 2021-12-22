@@ -1,14 +1,25 @@
 import React, { useState } from "react";
+import { Blog } from "../../types/blog.type";
 
 const Create = () => {
   const [title, setTitle] = useState<string>('');
   const [body, setBody] = useState<string>('');
   const [author, setAuthor] = useState<string>('mario');
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+
+    const blog: Partial<Blog> = {
+      title, body, author
+    }
+
+    console.log(blog);
+  }
+
   return (
     <div className="create">
       <h2>Add a New Blog</h2>
-      <form>
+      <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}>
         <label>Blog title:</label>
         <input
           type="text"
