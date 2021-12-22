@@ -13,13 +13,15 @@ const useFetch = <T>(url: string): UseFetchType<T> => {
 
     // Empty array dependency, use effect runs only once
     useEffect(() => {
-        fetch(url)
-        .then((res: Response) => {
-        if(!res.ok) {
-            throw Error('Could not fetch the data for that resource');
-        }
+        const abortCntrl = new AbortController();
 
-        return res.json();
+        fetch(url, { signal: abortCntrl.signal })
+        .then((res: Response) => {
+            if(!res.ok) {
+                throw Error('Could not fetch the data for that resource');
+            }
+    
+            return res.json();
         })
         .then((data: any[]) => {
             setData(data);
@@ -27,9 +29,16 @@ const useFetch = <T>(url: string): UseFetchType<T> => {
             setError('');
         })
         .catch((err: TypeError) => {
-            setIsLoading(false);
-            setError(err.message);
+            if (err.name === 'AbortError') {
+                console.log('Fetch Aborted');
+            } else {
+                setIsLoading(false);
+                setError(err.message);
+            }
         });
+
+        // Clean up function
+        return () => abortCntrl.abort();
     }, [url]);
 
     return {data, error, isLoading} as UseFetchType<T>;
