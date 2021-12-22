@@ -3,28 +3,27 @@ import { Blog } from '../../types/blog.type';
 import BlogList from '../BlogList/BlogList';
 
 const Home = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([
-    { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
-    { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
-    { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 },
-  ]);
-
-  const handleDelete = (id: number): void => {
-    const newBlogs = blogs.filter(blog => blog.id !== id);
-    setBlogs(newBlogs);
-  };
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Empty array dependency, use effect runs only once
   useEffect(() => {
-    console.log('use effect ran');
+    fetch('http://localhost:8000/blogs')
+    .then(res => {
+      return res.json();
+    })
+    .then((data: Blog[]) => {
+      setBlogs(data);
+      setIsLoading(false);
+    });
   }, []);
 
   return (
     <div className="home">
-      <BlogList
+      { isLoading && <div>Loading...</div>}
+      { !isLoading && <BlogList
         blogs={blogs}
-        title="All Blogs!"
-        handleDelete={handleDelete} />
+        title="All Blogs!" />}
     </div>
   )
 };

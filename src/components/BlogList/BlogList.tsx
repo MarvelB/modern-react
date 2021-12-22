@@ -3,10 +3,9 @@ import { Blog } from "../../types/blog.type";
 interface BlogListProps {
   blogs: Blog[];
   title: string;
-  handleDelete: (id: number) => void;
 }
 
-const BlogList = ({blogs, title, handleDelete}: BlogListProps) => {
+const BlogList = ({blogs, title}: BlogListProps) => {
 
   return (
     <div className="blog-list">
@@ -15,7 +14,6 @@ const BlogList = ({blogs, title, handleDelete}: BlogListProps) => {
         <div className="blog-preview" key={blog.id}>
           <h2>{ blog.title }</h2>
           <p>Written by { blog.author }</p>
-          <button onClick={() => handleDelete(blog.id)}>delete blog</button>
         </div>
       ))}
     </div>
