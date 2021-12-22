@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
 export interface UseFetchType<T> {
-    data: T[];
+    data: T;
     isLoading: boolean;
     error: string;
 }
 
 const useFetch = <T>(url: string): UseFetchType<T> => {
-    const [data, setData] = useState<T[]>([]);
+    const [data, setData] = useState<T>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>('');
 
@@ -23,7 +23,7 @@ const useFetch = <T>(url: string): UseFetchType<T> => {
     
             return res.json();
         })
-        .then((data: any[]) => {
+        .then((data: T) => {
             setData(data);
             setIsLoading(false);
             setError('');
