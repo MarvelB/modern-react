@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import { Blog } from "../../types/blog.type";
 
 const Create = () => {
@@ -6,6 +7,7 @@ const Create = () => {
   const [body, setBody] = useState<string>('');
   const [author, setAuthor] = useState<string>('mario');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const history = useHistory();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -23,6 +25,8 @@ const Create = () => {
     })
     .then(() => {
       setIsLoading(false);
+      // history.go(-1);
+      history.push('/');
     })
   }
 
