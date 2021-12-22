@@ -5,15 +5,25 @@ const Create = () => {
   const [title, setTitle] = useState<string>('');
   const [body, setBody] = useState<string>('');
   const [author, setAuthor] = useState<string>('mario');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+
+    setIsLoading(true);
 
     const blog: Partial<Blog> = {
       title, body, author
     }
 
-    console.log(blog);
+    fetch('http://localhost:8000/blogs', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(blog),
+    })
+    .then(() => {
+      setIsLoading(false);
+    })
   }
 
   return (
@@ -45,7 +55,8 @@ const Create = () => {
           <option value="yoshi">yoshi</option>
         </select>
 
-        <button>Add Blog</button>
+        {!isLoading && <button>Add Blog</button>}
+        {isLoading && <button disabled>Adding Blog...</button>}
       </form>
     </div>
   )
