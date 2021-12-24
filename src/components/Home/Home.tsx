@@ -3,7 +3,7 @@ import { Blog } from '../../types/blog.type';
 import BlogList from '../BlogList/BlogList';
 
 const Home = () => {
-  const { data: blogs, error, isLoading } = useFetch<Blog>('http://localhost:8000/blogs');
+  const { data: blogs, error, isLoading } = useFetch<Blog[]>('http://localhost:8000/blogs');
 
   return (
     <div className="home">
